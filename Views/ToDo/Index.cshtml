@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<ToDoItem>
+
+<h1>My ToDo List</h1>
+
+<form method="post" action="@Url.Action("Add")">
+    <input type="text" name="newItem" />
+    <input type="submit" value="Add Item" />
+</form>
+
+
+ 
+
+@foreach (var todo in Model)
+{
+<div>
+<input type="checkbox" name="isComplete" value="@todo.Id" @(todo.IsComplete ? "checked" : "")/>
+<span>@todo.Title</span>
+<form method="post" action="@Url.Action("Delete")" style="display: inline-block;">
+<input type="hidden" name="id" value="@todo.Id" />
+<input type="submit" value="Delete" />
+</form>
+</div>
+}
+
+@if (Model.Any())
+{
+    <form method="post" action="@Url.Action("DeleteAll")" style="margin-top: 20px;">
+        <input type="submit" value="Delete All" />
+    </form>
+}
+
+<h2>Uncompleted Tasks</h2>
+
+@foreach (var todo in Model.Where(t => !t.IsComplete))
+{
+<div>
+<input type="checkbox" name="isComplete" value="@todo.Id" />
+<span>@todo.Title</span>
+<form method="post" action="@Url.Action("Delete")" style="display: inline-block;">
+<input type="hidden" name="id" value="@todo.Id" />
+<input type="submit" value="Delete" />
+</form>
+</div>
+}
+
+
